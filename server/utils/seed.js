@@ -18,7 +18,41 @@ export const seedDatabase = async () => {
 
     console.log('[Seed] Checking sample data...');
 
-    // 1. Check/Seed Sample Citizen User for testing/demo purposes if needed
+    // 1. Check/Seed Municipal Administrator Account
+    const adminEmail = (process.env.ADMIN_EMAIL || 'admin@municipality.gov').toLowerCase().trim();
+    let admin = await User.findOne({ email: adminEmail }).select('+password');
+    const defaultAdminPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_INITIAL_PASSWORD || 'Admin@12345';
+
+    if (!admin) {
+      admin = await User.create({
+        name: process.env.ADMIN_NAME || 'Municipal Administrator',
+        email: adminEmail,
+        password: defaultAdminPassword,
+        role: 'admin',
+      });
+      console.log(`[Seed] Municipal Administrator account initialized: ${adminEmail}`);
+    } else {
+      let needsSave = false;
+      if (admin.role !== 'admin') {
+        admin.role = 'admin';
+        needsSave = true;
+      }
+      // If ADMIN_PASSWORD is set in environment, sync it if different
+      if (process.env.ADMIN_PASSWORD) {
+        const matchesEnv = await admin.matchPassword(process.env.ADMIN_PASSWORD);
+        if (!matchesEnv) {
+          admin.password = process.env.ADMIN_PASSWORD;
+          needsSave = true;
+          console.log(`[Seed] Municipal Administrator password synchronized with ADMIN_PASSWORD environment variable.`);
+        }
+      }
+      if (needsSave) {
+        await admin.save();
+      }
+      console.log(`[Seed] Municipal Administrator account verified: ${adminEmail}`);
+    }
+
+    // 2. Check/Seed Sample Citizen User for testing/demo purposes if needed
     let citizen = await User.findOne({ email: 'jane@citizen.org' });
     if (!citizen) {
       citizen = await User.create({
@@ -31,7 +65,7 @@ export const seedDatabase = async () => {
       console.log('[Seed] Sample Citizen account verified: jane@citizen.org');
     }
 
-    // 2. Seed Sample Issues if database has no issues
+    // 3. Seed Sample Issues if database has no issues
     const count = await Issue.countDocuments();
     if (count === 0 && citizen) {
       const sampleIssues = [

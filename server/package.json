@@ -9,7 +9,8 @@
     "dev": "nodemon server.js",
     "seed": "node utils/seed.js",
     "create-admin": "node utils/createAdmin.js",
-    "set-admin": "node utils/manageAdmin.js"
+    "set-admin": "node utils/manageAdmin.js",
+    "sync-atlas": "node utils/syncToAtlas.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
