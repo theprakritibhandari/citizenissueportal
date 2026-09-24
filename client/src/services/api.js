@@ -1,4 +1,16 @@
-const API_BASE = import.meta.env.VITE_API_URL || '/api';
+// Smart API_BASE resolver: handles missing '/api', trailing slashes, and relative paths
+const getApiBase = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (!envUrl) return '/api';
+  const clean = envUrl.trim().replace(/\/+$/, '');
+  // If the user specified a domain (e.g. https://service.onrender.com) without /api, append /api
+  if (clean.startsWith('http') && !clean.endsWith('/api')) {
+    return `${clean}/api`;
+  }
+  return clean;
+};
+
+const API_BASE = getApiBase();
 
 // Helper to get auth header with token
 const getAuthHeaders = (isFormData = false) => {
@@ -19,13 +31,35 @@ const getAuthHeaders = (isFormData = false) => {
 // Generic fetch wrapper with clean error extraction
 async function request(endpoint, options = {}) {
   const url = `${API_BASE}${endpoint}`;
-  const response = await fetch(url, options);
+  let response;
+
+  try {
+    response = await fetch(url, options);
+  } catch (networkErr) {
+    throw new Error(
+      `Cannot connect to backend server (${url}). Please ensure the backend is running and CORS is properly configured.`
+    );
+  }
 
   let data;
-  try {
-    data = await response.json();
-  } catch (err) {
-    data = { success: false, message: 'Invalid response from server' };
+  const contentType = response.headers.get('content-type') || '';
+
+  if (contentType.includes('application/json')) {
+    try {
+      data = await response.json();
+    } catch (err) {
+      data = { success: false, message: 'Invalid response from server' };
+    }
+  } else {
+    // If the server returns HTML (e.g. 404 handler or Vercel index.html fallback)
+    const text = await response.text();
+    data = {
+      success: false,
+      message:
+        response.status === 404
+          ? `API route not found (404) at ${url}`
+          : `Server returned non-JSON status ${response.status}`,
+    };
   }
 
   if (!response.ok) {
