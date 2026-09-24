@@ -1,0 +1,26 @@
+{
+  "name": "citizen-issue-reporting-portal",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Full-stack Citizen Issue Reporting Portal with React, Express, and MongoDB",
+  "type": "module",
+  "scripts": {
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "dev": "node -e \"console.log('Use npm run dev:client in client folder and npm run dev:server in server folder.')\"",
+    "build:client": "npm --prefix client run build",
+    "seed:server": "npm --prefix server run seed"
+  },
+  "keywords": [
+    "citizen",
+    "issues",
+    "grievance",
+    "reporting",
+    "portal",
+    "react",
+    "express",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "ISC"
+}

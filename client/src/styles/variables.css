@@ -1,0 +1,78 @@
+:root {
+  /* Brand Civic Colors */
+  --primary-navy: #0A2540;
+  --primary-navy-dark: #06182a;
+  --primary-blue: #0066CC;
+  --primary-blue-hover: #0052a3;
+  --primary-blue-light: #EBF5FF;
+  --primary-blue-glow: rgba(0, 102, 204, 0.15);
+
+  --accent-cyan: #0EA5E9;
+  --accent-teal: #0D9488;
+
+  /* Neutral Surface Palette */
+  --bg-main: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #F1F5F9;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+
+  --border-light: #E2E8F0;
+  --border-subtle: #CBD5E1;
+  --border-focus: #93C5FD;
+
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-inverse: #FFFFFF;
+
+  /* Status Colors */
+  --status-submitted-bg: #FEF3C7;
+  --status-submitted-text: #92400E;
+  --status-submitted-border: #FCD34D;
+
+  --status-review-bg: #EDE9FE;
+  --status-review-text: #6B21A8;
+  --status-review-border: #DDD6FE;
+
+  --status-progress-bg: #E0F2FE;
+  --status-progress-text: #0369A1;
+  --status-progress-border: #BAE6FD;
+
+  --status-resolved-bg: #D1FAE5;
+  --status-resolved-text: #065F46;
+  --status-resolved-border: #A7F3D0;
+
+  --status-rejected-bg: #FEE2E2;
+  --status-rejected-text: #991B1B;
+  --status-rejected-border: #FECACA;
+
+  /* Priority Colors */
+  --priority-low: #10B981;
+  --priority-medium: #F59E0B;
+  --priority-high: #EA580C;
+  --priority-urgent: #EF4444;
+
+  /* Elevation Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --shadow-card-hover: 0 14px 28px rgba(15, 23, 42, 0.12), 0 10px 10px rgba(15, 23, 42, 0.04);
+
+  /* Borders & Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --header-height: 72px;
+  --sidebar-width: 260px;
+  --container-max: 1240px;
+}
