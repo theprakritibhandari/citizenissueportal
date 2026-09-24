@@ -129,7 +129,8 @@ export const login = async (req, res, next) => {
 // @access  Public (Admin only)
 export const adminLogin = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const email = typeof req.body?.email === 'string' ? req.body.email.toLowerCase().trim() : '';
+    const password = typeof req.body?.password === 'string' ? req.body.password : '';
 
     if (!email || !password) {
       return res.status(400).json({
@@ -139,7 +140,7 @@ export const adminLogin = async (req, res, next) => {
     }
 
     // Find user and explicitly select password
-    const user = await User.findOne({ email: email.toLowerCase().trim() }).select('+password');
+    const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
       return res.status(401).json({
@@ -149,6 +150,7 @@ export const adminLogin = async (req, res, next) => {
     }
 
     const isMatch = await user.matchPassword(password);
+
     if (!isMatch) {
       return res.status(401).json({
         success: false,

@@ -18,14 +18,15 @@ export const AdminLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
+    const cleanEmail = email.trim();
+    if (!cleanEmail || !password) {
       toast.error('Please enter administrator email and password.');
       return;
     }
 
     setLoading(true);
     try {
-      const res = await adminLogin(email, password);
+      const res = await adminLogin(cleanEmail, password);
       if (res.user?.role !== 'admin') {
         toast.error('Access Denied: This account does not possess municipal administrator privileges.');
         return;
